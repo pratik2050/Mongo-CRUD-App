@@ -8,5 +8,35 @@
 </head>
 <body>
     <h1>Hello Mongo</h1>
+
+    <div>
+        <input type="text" name="user" value="Pratik">
+        <button class="btn1">Add User</button>
+    </div>
+
+
+    <script>
+
+        const input1 = document.querySelector('input[name="user"]');
+        const btn1 = document.querySelector('.btn1');
+        const endPoint = '/users';
+
+        btn1.addEventListener('click', () => {
+            console.log('POST Clicked');
+
+            const data = {name: input1.value, user: 'LUMAO'};
+
+            fetch(endPoint, {
+                method : 'post',
+                body : JSON.stringify(data),
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            }).then(res => res.json()).then(data => {
+                console.log(data);
+            })
+        });
+
+    </script>
 </body>
 </html>
