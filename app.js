@@ -26,25 +26,29 @@ client.connect(err => {
     const myDB = client.db('People').collection('Friends');
 
     app.route('/users')
-    .get((req, res) => {
-
-    })
-    .post((req, res) => {
-        console.log(req.body);
-        myDB.insertOne(req.body).then(result => {
-            console.log(req.body);
-            res.contentType('application/json');
-            res.send(JSON.stringify(result));
+        .get((req, res) => {
+            myDB.find().toArray().then(results => {
+                console.log(results);
+                res.contentType('application/json');
+                res.send(JSON.stringify(results));
+            });
         })
-    })
-    .put((req, res) => {
+        .post((req, res) => {
+            console.log(req.body);
+            myDB.insertOne(req.body).then(result => {
+                console.log(req.body);
+                res.contentType('application/json');
+                res.send(JSON.stringify(result));
+            })
+        })
+        .put((req, res) => {
 
-    })
-    .delete((req, res) => {
-  
-    })
+        })
+        .delete((req, res) => {
+    
+        })
 
-})
+});
 
 
 

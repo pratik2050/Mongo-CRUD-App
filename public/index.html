@@ -14,17 +14,46 @@
         <button class="btn1">Add User</button>
     </div>
 
+    <button class="btn2">List Data</button>
+
+    <div class="output"></div>
 
     <script>
 
         const input1 = document.querySelector('input[name="user"]');
         const btn1 = document.querySelector('.btn1');
+        const btn2 = document.querySelector('.btn2');
+        const out = document.querySelector('.output');
         const endPoint = '/users';
 
+
+        function Output(data) {
+                out.innerHTML = '<div>Users</div>';
+                data.forEach(element => {
+                    console.log(element);
+                    const main = document.createElement('div');
+                    const myInput = document.createElement('input');
+
+                    myInput.setAttribute('type', 'text');
+                    myInput.value = element.name;
+                    
+                    main.append(myInput);
+
+                    const span1 = document.createElement('span');
+                    span1.textContent = element._id;
+
+                    main.append(span1);
+
+                    out.append(main);
+                });
+            }
+
+        
         btn1.addEventListener('click', () => {
             console.log('POST Clicked');
 
-            const data = {name: input1.value, user: 'LUMAO'};
+            const data = {name: input1.value};
+
 
             fetch(endPoint, {
                 method : 'post',
@@ -35,6 +64,14 @@
             }).then(res => res.json()).then(data => {
                 console.log(data);
             })
+        });
+
+        btn2.addEventListener('click', () => {
+            console.log('GET Clicked');
+
+            fetch(endPoint).then(res => res.json()).then(data => {
+                Output(data);
+            });
         });
 
     </script>
