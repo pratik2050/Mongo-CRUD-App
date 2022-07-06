@@ -7,6 +7,7 @@ const url = require('./secret');
 const { ObjectId } = require('mongodb');
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
 app.use(bodyParser.json());    //return parameter as JSON
 
@@ -95,6 +96,6 @@ app.get('/', (req, res) => {
 
 
  
-app.listen(8080, () => {
-    console.log("Server Running on Port 8080");
+app.listen(PORT, () => {
+    console.log("Server Running on Port " + PORT);
 });

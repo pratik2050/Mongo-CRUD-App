@@ -1,3 +1,3 @@
 # Mongo CRUD App 
 
-Express app that perform crud operations on MongoDB
+Express app that perform CRUD operations on MongoDB
