@@ -4,6 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const router = express.Router();
 
 const url = require('./secret');
+const { ObjectId } = require('mongodb');
 
 const app = express();
 
@@ -25,6 +26,14 @@ const client = new MongoClient(url, {
 client.connect(err => {
     const myDB = client.db('People').collection('Friends');
 
+    app.get('/user/:name', (req, res) => {      //filtering GET
+        myDB.find(req.params).toArray().then(results => {
+            console.log(results);
+            res.contentType('application/json');
+            res.send(JSON.stringify(results));
+        });
+    });
+
     app.route('/users')
         .get((req, res) => {
             myDB.find().toArray().then(results => {
@@ -42,7 +51,21 @@ client.connect(err => {
             })
         })
         .put((req, res) => {
-
+            console.log(req.body);
+            myDB.findOneAndUpdate(
+                {
+                    _id:ObjectId(req.body._id)
+                }, 
+                {$set: {
+                    name: req.body.name
+                }}, 
+                {
+                    upsert: false
+                }).then(result => {
+                    console.log(req.body);
+                    res.contentType('application/json');
+                    res.send({"status":true});
+                })
         })
         .delete((req, res) => {
     

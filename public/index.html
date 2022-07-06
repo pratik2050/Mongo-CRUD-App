@@ -10,10 +10,18 @@
     <h1>Hello Mongo</h1>
 
     <div>
+        <h3>Add a New User</h3>
         <input type="text" name="user" value="Pratik">
         <button class="btn1">Add User</button>
     </div>
 
+    <div>
+        <h3>Find users in MongoDB using Filter</h3>
+        <input type="text" name="finder" value="Pratik">
+        <button class="btn3">Find Match</button>
+    </div>
+
+    <br>
     <button class="btn2">List Data</button>
 
     <div class="output"></div>
@@ -21,8 +29,10 @@
     <script>
 
         const input1 = document.querySelector('input[name="user"]');
+        const input2 = document.querySelector('input[name="finder"]');
         const btn1 = document.querySelector('.btn1');
         const btn2 = document.querySelector('.btn2');
+        const btn3 = document.querySelector('.btn3');
         const out = document.querySelector('.output');
         const endPoint = '/users';
 
@@ -36,13 +46,37 @@
 
                     myInput.setAttribute('type', 'text');
                     myInput.value = element.name;
-                    
                     main.append(myInput);
 
                     const span1 = document.createElement('span');
                     span1.textContent = element._id;
-
                     main.append(span1);
+
+                    const button1 = document.createElement('button');
+                    button1.textContent = 'Delete';
+                    button1.style.color = 'red';
+                    button1.addEventListener('click', () => {
+                        console.log("DELETE clicked");
+                    });
+                    main.append(button1);
+
+                    const button2 = document.createElement('button');
+                    button2.textContent = 'Update';
+                    button2.style.color = 'green';
+                    button2.addEventListener('click', () => {
+                        element.name = myInput.value;
+                        console.log("PUT clicked"); 
+                        fetch(endPoint, {
+                            method: 'put',
+                            body: JSON.stringify(element),
+                            headers: {
+                                'Content-Type' : 'application/json'
+                            }
+                        }).then(res => res.json()).then(data => {
+                            console.log(data);
+                        })
+                    });
+                    main.append(button2);
 
                     out.append(main);
                 });
@@ -70,6 +104,14 @@
             console.log('GET Clicked');
 
             fetch(endPoint).then(res => res.json()).then(data => {
+                Output(data);
+            });
+        });
+
+        btn3.addEventListener('click', () => {
+            console.log('Filter Clicked');
+
+            fetch('/user/' + input2.value).then(res => res.json()).then(data => {
                 Output(data);
             });
         });
