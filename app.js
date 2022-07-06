@@ -68,7 +68,20 @@ client.connect(err => {
                 })
         })
         .delete((req, res) => {
-    
+            myDB.deleteOne({
+                _id : ObjectId(req.body._id)
+            }).then(result => {
+                let flag = true;
+
+                if (result.deletedCount === 0) {
+                    flag = false
+                }
+
+                res.send({'status': flag})
+            })
+            .catch(err => {
+                console.log(err);
+            })
         })
 
 });

@@ -57,6 +57,17 @@
                     button1.style.color = 'red';
                     button1.addEventListener('click', () => {
                         console.log("DELETE clicked");
+                        fetch(endPoint, {
+                            method: 'delete',
+                            body: JSON.stringify(element),
+                            headers: {
+                                'Content-Type' : 'application/json'
+                            }
+                        }).then(res => res.json()).then(data => {
+                            if(data.status) {
+                                main.remove();
+                            }
+                        })
                     });
                     main.append(button1);
 
